@@ -1,0 +1,61 @@
+/**
+
+Maximum Occurrence
+
+Given a string text. 
+Write a function that returns the character with the highest frequency. 
+If more than 1 character has the same highest frequency, return all those characters as a comma separated string.
+If there is no repetition in characters, return "No Repetition".
+
+Example
+
+MaxOccur("Computer Science") ➞ "e"
+
+MaxOccur("Edabit") ➞ "No Repetition"
+
+MaxOccur("system admin") ➞ "m, s"
+
+MaxOccur("the quick brown fox jumps over the lazy dog") ➞ " "
+
+**/
+		
+using System;
+using System.Collections.Generic;
+public class Program
+{
+	public static void Main()
+	{
+		
+		String str = "aabcdasdassdaefgabcdefghhh";
+		int length = str.Length;
+		List<KeyValuePair<char,int >>  myList = new List<KeyValuePair<char, int>>();
+
+		for(int i = 0; i < length; i++){
+			if (myList.Find(kvp => kvp.Key == str[i]).Key =='\0')
+			{
+				myList.Add(new KeyValuePair<char, int>(str[i], 1));
+			}else{
+				int val = myList.Find(kvp => kvp.Key == str[i]).Value;
+				val++;
+				myList.RemoveAll(kvp => kvp.Key == str[i]);
+				myList.Add(new KeyValuePair<char, int>(str[i], val));
+			}
+		}
+		
+		myList.Sort((x, y) => (y.Value.CompareTo(x.Value)));
+
+		if(myList.Count==length){
+			Console.WriteLine("No Repetition");
+		}else{
+			int key = myList[0].Value;
+			var res = myList.FindAll(kvp => kvp.Value == key);
+			var output = "";
+			foreach(var kvp in res){
+							output+=kvp.Key+",";
+			}
+			Console.Write(output);
+
+		}
+
+	}
+}
